@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Be My Valentine 💜</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>Will You Be My Valentine? 💜</h1>
+    <button id="yesBtn" onclick="yesClicked()">Yes 💖</button>
+    <button id="noBtn" onmouseover="moveButton()">No 😌</button>
+</div>
+
+<script>
+function yesClicked() {
+    document.body.innerHTML = `
+        <div class="container">
+            <h1>You & Me 💜❤️</h1>
+            <div class="gallery" id="heartGallery"></div>
+            <div class="typing" id="typingText"></div>
+        </div>
+    `;
+    createHeart();
+    typeMessage();
+    startHearts();
+    startConfetti();
+}
+
+function moveButton() {
+    const button = document.getElementById('noBtn');
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    button.style.left = x + 'px';
+    button.style.top = y + 'px';
+}
+
+function createHeart() {
+    const gallery = document.getElementById("heartGallery");
+    const images = [
+        "IMG-20221118-WA0008.jpg","IMG_5572.jpg","IMG_5615.png","IMG_6154.jpg","IMG_6155_(copy).jpg",
+        "IMG_7258.png","IMG_7259.png","IMG_7260.png","20260117050300971229.png"
+    ];
+    const positions = [
+        [200,330],[150,270],[250,270],
+        [120,200],[280,200],
+        [100,130],[300,130],
+        [150,80],[250,80],
+        [200,50]
+    ];
+    images.forEach((src,i)=>{
+        const img = document.createElement("img");
+        img.src = src;
+        const pos = positions[i % positions.length];
+        img.style.left = pos[0]+"px";
+        img.style.top = pos[1]+"px";
+        gallery.appendChild(img);
+        setTimeout(()=>{
+            img.style.opacity = "1";
+            img.style.transform = "scale(1)";
+        }, i*300);
+    });
+}
+
+function typeMessage() {
+    const text = "Every moment with you feels like magic. I choose you. Always. 💜";
+    const typingEl = document.getElementById("typingText");
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            typingEl.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 50);
+        }
+    }
+    type();
+}
+
+function startHearts() {
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.classList.add("heartFloat");
+        heart.innerHTML = Math.random() > 0.5 ? "💜" : "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight + "px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),5000);
+    },300);
+}
+
+function startConfetti() {
+    setInterval(()=>{
+        const conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.innerHTML = "✨";
+        conf.style.left = Math.random()*window.innerWidth+"px";
+        conf.style.top = window.innerHeight+"px";
+        conf.style.fontSize = Math.random()*20+10+"px";
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),4000);
+    },200);
+}
+</script>
+</body>
+</html>
